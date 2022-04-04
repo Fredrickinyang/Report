@@ -1,14 +1,14 @@
 <template>
-<nav class="d-flex justify-content-between">
-    <div>
-        <span class="search-container">
+<nav class="d-flex flex-wrap justify-content-between">
+    <div class=" search-parent d-flex flex-wrap">
+        <span class="input-container">
             <i class="fa fa-search search-icon" aria-hidden="true"></i>
             <input type="text" placeholder="Search" class="search-input">
         </span>
         <button class="search-btn">Search</button>
     </div>
 
-    <div class="d-flex">
+    <div class="notification_parent d-flex ml-3">
         <div class="notification-icon-parent">
             <i class="bi bi-chat-dots chat-icon"></i>
             <p class="notification-count">6</p>
@@ -38,7 +38,13 @@ nav {
     /* height: 10vh; */
     padding: 15px 36px 15px 25px;
 }
-.search-container{
+@media (max-width:404px) {
+    .search-parent button{
+        margin:.3rem 0 0 0;
+}
+}
+
+.input-container{
     background-color: var(--deep-gray);
     padding: 6px 16px;
     border-radius:5px;
@@ -60,6 +66,12 @@ nav {
     color:#ffffff;
     border-radius:3px;
 }
+@media (max-width:540px) {
+    .notification_parent{
+    margin-top:.5rem;
+}
+}
+
 .notification-icon-parent{
     width:2rem;
     position: relative;

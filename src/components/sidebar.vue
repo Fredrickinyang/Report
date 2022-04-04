@@ -79,12 +79,14 @@ li {
     padding: 118px 35px 0 35px;
     height: 100vh;
     transition: all 0.5s;
-    width:19rem;
+    width:18rem;
 }
 
 @media (max-width:1194px) {
     .sidebar-parent {
     position: absolute;
+    z-index: 1000;
+    height:100vh;
     }
     .sidebar {
         margin-left: -100%;
@@ -92,7 +94,7 @@ li {
 }
 .toggler-parent{
     display: none;
-    margin:20rem 0 0 0;
+    margin:10rem 0 0 0;
 }
 @media (max-width:1194px) {
     .toggler-parent{
