@@ -1,17 +1,30 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import overview from '../views/overview.vue'
 import dashboardLayout from '../Layout/dashboardLayout.vue'
+import users from '../views/users.vue'
+import groups from '../views/groups.vue'
+import transactions from '../views/transactions.vue'
 
 const routes = [{
         path: '/',
         name: 'dashboard',
-        redirect: "/dashboard/overview",
+        redirect: "/dashboard/users",
         component: dashboardLayout,
         children: [{
-            path: '/dashboard/overview',
-            name: 'overview',
-            component: overview
-        }]
+                path: '/dashboard/users',
+                name: 'users',
+                component: users
+            },
+            {
+                path: '/dashboard/groups',
+                name: 'groups',
+                component: groups
+            },
+            {
+                path: '/dashboard/transactions',
+                name: 'transactions',
+                component: transactions
+            },
+        ]
     },
 
 ]

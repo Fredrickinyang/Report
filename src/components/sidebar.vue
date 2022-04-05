@@ -1,22 +1,22 @@
 <template>
 <div class="d-flex sidebar-parent">
 <ul class="sidebar" ref="sidebar">
-    <router-link to="">
-        <li class="sidebar-items " :class="{active:isActive == 1}" @click="isActive = 1">
+    <router-link to="/dashboard/users">
+        <li class="sidebar-items " :class="{active:isActive == 1}" @click="usersActive">
             <i class="bi bi-person-circle"></i>
             Users
         </li>
     </router-link>
 
-    <router-link to="">
-        <li class="sidebar-items" :class="{active:isActive == 2}" @click="isActive = 2">
+    <router-link to="/dashboard/groups">
+        <li class="sidebar-items" :class="{active:isActive == 2}" @click="groupsActive">
             <i class="bi bi-people-fill"></i>
             Groups
         </li>
     </router-link>
 
-    <router-link to="">
-        <li class="sidebar-items" :class="{active:isActive == 3}" @click="isActive = 3">
+    <router-link to="/dashboard/transactions">
+        <li class="sidebar-items" :class="{active:isActive == 3}" @click="transactionActive">
             <i class="bi bi-people-fill"></i>
             Transaction History
         </li>
@@ -38,6 +38,7 @@
 export default {
     data() {
         return {
+        props:['trans', 'group', 'user' ],
             isActive: undefined,
             openIcon: true,
             closeIcon: false,
@@ -54,7 +55,19 @@ export default {
             this.closeIcon = false;
             this.$refs.sidebar.style.marginLeft = "-100%";
         },
+        usersActive(){
+            this.isActive = 1;
+        },
+        groupsActive(){
+            this.isActive = 2;
+        },
+        transactionActive(){
+            this.isActive = 3;
+        },
+        users() {
+           
 
+        },
     }
 }
 </script>
