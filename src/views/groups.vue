@@ -1,98 +1,107 @@
 <template>
-<div class="d-flex justify-content-between">
-    <button class="export-btn">Export</button>
-    <button class="send-btn">Send Bulk Sms</button>
-</div>
+<span v-if="modal">
+    <AddGroupModal @close="showModal"/>
+</span>
+<span v-if="JoinGroup">
+    <JoinGroupModal @offModal="showJoinModal"/>
+</span>
+
+<div class="parent">
+    <span>
+        <topComponents/>
+    </span>
+
+<div class="d-flex justify-content-end">
+    <button class="send-btn" @click="showModal">Add Group</button>
+  </div>
 <div class=" table-parent">
-    <div class="d-flex justify-content-between">
-        <h6>Transactions</h6>
-        <h6 class="transaction-date">
-            <i class="bi bi-receipt"></i>
-            Mar 2022
-        </h6>
+    <div class="">
+        <h6>Groups</h6>
+         
     </div>
     <div class="table-wrapper">
     <table class="fl-table">
         <thead>
         <tr>
-            <th>Ref</th>
-            <th>Name</th>
-            <th>Amount (NGN)</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Description</th>
+            <th>Name</th>            
+            <th>Description</th>            
+            <th>Copy Link</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>1</td>
-            <td>Mathew Jones</td>
-            <td> 1000</td>
-            <td>30/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Support Fee</td>
+            <td>Marketters Joint</td>
+            <td> Marketters Discussion Group</td>           
+            <td>
+                <span ><i class="bi bi-link-45deg  link"  @click="showJoinModal"></i></span>
+            </td>
         </tr>
-        <tr>
-            <td> 2</td>
-            <td>Alex Dan</td>
-            <td>2500</td>
+        <!-- <tr>
+            <td> Software Builders</td>
+            <td>11</td>
+            <td>software Engineers Platform</td>
             <td>13/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Monthly Dues</td>
-        </tr>
-        <tr>
-            <td> 3</td>
-            <td>Tom Cruise</td>
-            <td>3400</td>
-            <td>11/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Advert Fee</td>
-        </tr>
-        <tr>
-            <td> 4</td>
-            <td>Ben Samuel</td>
-            <td>4600</td>
-            <td>9/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Violation Fine</td>
-        </tr>
-        <tr>
-            <td> 5</td>
-            <td>Anthony Fred</td>
-            <td>1800</td>
-            <td>4/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Update Group Fee</td>
-        </tr>
-        <tr>
-            <td> 6</td>
-            <td>Sandra Udo</td>
-            <td>3060</td>
-            <td>2/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Renewal Fee</td>
-        </tr>
-        <tr>
-            <td> 7</td>
-            <td>Ella Nsidibe</td>
-            <td>3790</td>
-            <td>1/03/22</td>
-            <td><i class="bi bi-check-circle-fill"></i></td>
-            <td>Creatives Group Fee</td>
-        </tr>      
+            <td>Alex Dan</td>
+            <td>
+                <span v-if="uncopied" @click="copyLink"><i class="bi bi-link-45deg  link"></i></span>
+                <span v-if="copied"><i class="bi bi-check-lg text-success"></i></span>
+            </td>
+        </tr> -->
+       
         </tbody>
     </table>
 </div>
 </div>
+</div>
+  
 </template>
 
 <script>
-export default {}
+import topComponents from '../components/top_details.vue'
+import AddGroupModal from '../components/add_group_modal.vue'
+import JoinGroupModal from '../components/join_group_modal.vue'
+
+export default {
+    data() {
+        return{
+            uncopied:true,
+            copied:false,
+            modal:false,
+            JoinGroup:false,
+        }
+    },
+ components:{
+        topComponents,
+        AddGroupModal,
+        JoinGroupModal
+    },
+    methods:{
+        showJoinModal(){
+            this.JoinGroup = !this.JoinGroup
+        },
+        copyLink(){
+            setTimeout(() => {
+            this.copied = true; this.uncopied = false;} ,2000);
+            this.uncopied = true;
+            this.copied = false
+            
+            return
+        },
+        showModal(){
+            this.modal = !this.modal;
+        }
+    }
+}
 </script>
 
 <style scoped>
+.parent {
+    padding: 0 40px 0 30px;
+
+}
 .export-btn {
     padding: 7px 30px;
+    margin:0 .2rem;
     border: none;
     background-color: var(--theme);
     color: #ffffff;
@@ -101,6 +110,7 @@ export default {}
 
 .send-btn {
     padding: 7px 10px;
+    margin:0 .2rem;
     border: none;
     background-color: var(--theme);
     color: #ffffff;
@@ -108,7 +118,7 @@ export default {}
 }
 
 .table-parent {
-    margin: 1rem 0 0 0;
+    margin: .4rem 0 0 0;
     border: 1px solid #000000;
     padding: 15px 10px;
     border-radius: 7px;
@@ -125,8 +135,8 @@ export default {}
 
 /* Table Styles */
 
-.table-wrapper{
-}
+/* .table-wrapper{
+} */
 
 .fl-table {
     font-size: 12px;
@@ -140,15 +150,12 @@ export default {}
 }
 
 .fl-table td, .fl-table th {
-    padding: 8px 0 8px 20px;
+    padding: 7px 0 7px 20px;
 }
 
 .fl-table td {
     font-size: 12px;
     width:6rem;
-}
-.fl-table tr td:nth-child(5){
-    color: #1f9906;
 }
 
 .fl-table thead th {
@@ -161,9 +168,9 @@ export default {}
 
 }
 
-.fl-table tr:nth-child(even) {
-    /* background: #F8F8F8; */
-}
+/* .fl-table tr:nth-child(even) {
+    background: #F8F8F8;
+} */
 
 /* Responsive */
 
@@ -229,5 +236,9 @@ export default {}
         display: block;
         text-align: center;
     }
+}
+.link{
+    font-size: 14px;
+    cursor: pointer;
 }
 </style>
