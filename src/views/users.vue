@@ -1,7 +1,11 @@
 <template>
 <span v-if="addUser">
-   <AddUserModal @close="toggleAddModal"/> 
+    <AddUserModal @close="toggleAddModal" />
 </span>
+<span v-if="viewMore">
+    <ViewMoreModal @offModal="toggleViewMoreModal" />
+</span>
+
 
 <div class="parent">
     <span>
@@ -10,8 +14,17 @@
 
     <div class="d-flex justify-content-between">
         <div>
-            <button class="export-btn">Export</button>
-            <button class="export-btn">Import</button>
+            <button class="export-btn">
+                <select name="" id="" class="export-select">
+                    <option>Export</option>
+                    <option value="Pdf">Pdf</option>
+                    <option value="Zip">Zip</option>
+                </select>
+            </button>
+                <button class="import-btn add-file" @click="showFile">Import
+                    <input type="file" class="file" >
+                </button>
+
             <button class="send-btn">Send Bulk Sms</button>
         </div>
         <button class="send-btn" @click="toggleAddModal">Add Member</button>
@@ -33,48 +46,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mathew Jones</td>
-                        <td>mathew.jones@gmail.com</td>
-                        <td>07073221000</td>
-                        <td>Male</td>
-                        <td>Marketters Joint</td>
-                            <td><i class="bi bi-three-dots dots" @click="toggleInfo"></i>
-                            <div class="info-cards" v-if="info">
-                                <div class="p-0">
-                                    <p class="m-0">Joined</p>
-                                    <p>Jan 10th, 2022</p>
-                                </div>
-                                <div>
-                                    <p class="m-0">Location</p>
-                                    <p>Uyo, Akwa Ibom State</p>
-                                </div>
-                                <div>
-                                    <button class="p-1 m-1 border rounded remove-btn">Remove</button>
-                                    <button  class="p-1 m-1 border rounded cancel-btn" @click="toggleInfo" >Cancel</button>
-                                </div>
-                            </div>
-                            </td>
+
+                    <tr v-for="(user, index) in users" :key="index">
+                        <td>{{user.Name}}</td>
+                        <td>{{user.Email}}</td>
+                        <td>{{user.Phone_number}}</td>
+                        <td>{{user.Gender}}</td>
+                        <td>{{user.Group}}</td>
+                        <td><i class="bi bi-three-dots dots" @click="toggleViewMoreModal"></i></td>
                     </tr>
-                    <!-- <tr>
-                        <td> Alex Dan</td>
-                        <td>AlexDan@gmail.com</td>
-                        <td>07090862500</td>
-                        <td>Male</td>
-                        <td>Software Builders</td>
-                        <td><i class="bi bi-three-dots"></i></td>
-
-                    </tr> -->
-                    <!-- <tr>
-                        <td> Tom Cruise</td>
-                        <td>Tom@gmail.com</td>
-                        <td>09027383400</td>
-                        <td>Male</td>
-                        <td>Marketters Joint</td>
-                        <td><i class="bi bi-three-dots"></i></td>
-
-                    </tr>-->
-                   
                 </tbody>
             </table>
         </div>
@@ -85,27 +65,55 @@
 <script>
 import topComponents from '../components/top_details.vue'
 import AddUserModal from '../components/add_user_modal.vue'
+import ViewMoreModal from '../components/user_view_more_modal.vue'
 
 export default {
-    data(){
-        return{
-            info:false,
-            addUser:false,
+    data() {
+        return {
+            info: false,
+            addUser: false,
+            file: false,
+            viewMore:false,
+            users: [{
+                    Name: "Mathew Jones",
+                    Email: "mathew.jones@gmail.com",
+                    Phone_number: "07073221000",
+                    Gender: "Male",
+                    Group: "Marketters Joint",
+                },
+                {
+                    Name: " Alex Dan",
+                    Email: "AlexDan@gmail.com",
+                    Phone_number: "07090862500",
+                    Gender: "Male",
+                    Group: "Software Builders",
+                }
+            ],
 
         }
     },
     components: {
         topComponents,
-        AddUserModal
-        
+        AddUserModal,
+        ViewMoreModal
+
     },
     methods: {
         toggleInfo() {
             this.info = !this.info
         },
-        toggleAddModal(){
+        toggleAddModal() {
             this.addUser = !this.addUser;
-        }
+        },
+        upload() {
+            document.getElementById("file").click()
+        },
+        showFile() {
+            this.file = !this.file;
+        },
+        toggleViewMoreModal() {
+            this.viewMore = !this.viewMore;
+        },
     }
 }
 </script>
@@ -115,22 +123,51 @@ export default {
     padding: 0 40px 0 30px;
 
 }
-.dots{
+
+.dots {
     background-color: var(--deep-gray);
     padding: 0px 6px;
     border: 1px solid #a7a7a7;
-    border-radius:3px;
+    border-radius: 3px;
     font-size: 15px;
     cursor: pointer;
 }
 
 .export-btn {
+    padding: 7px 10px;
+    margin: 0 .2rem;
+    border: none;
+    background-color: var(--theme);
+    color: #ffffff;
+    border-radius: 3px;
+}
+
+.export-select {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    outline: none;
+
+}
+
+.export-select option {
+    background-color: var(--theme);
+    color: #ffffff;
+    border: none;
+
+}
+
+.import-btn {
     padding: 7px 30px;
     margin: 0 .2rem;
     border: none;
     background-color: var(--theme);
     color: #ffffff;
     border-radius: 3px;
+}
+.add-file{
+    position: relative;
+    overflow: hidden;
 }
 
 .send-btn {
@@ -142,13 +179,20 @@ export default {
     border-radius: 3px;
 }
 
+.file {
+    position: absolute;
+    opacity:0;
+    right:0px;
+    left:0;
+    z-index: 1000;
+}
+
 .table-parent {
     margin: .4rem 0 0 0;
     border: 1px solid #000000;
     padding: 15px 10px;
     border-radius: 7px;
     background-color: var(--light-gray);
-
 }
 
 .table-parent div:nth-child(1) {
@@ -160,7 +204,6 @@ export default {
 }
 
 /* Table Styles */
-
 
 .fl-table {
     font-size: 12px;
@@ -278,27 +321,31 @@ export default {
         text-align: center;
     }
 }
-.info-cards-container{
-    position: relative; 
+
+.info-cards-container {
+    position: relative;
 }
-.info-cards{
+
+.info-cards {
     position: absolute;
     right: 0;
-    top:1.3rem;
+    top: 1.3rem;
     z-index: 1000;
-    background-color:#ffffff;
+    background-color: #ffffff;
     border: 1px solid #c5c5c5;
-    border-radius:3px;
+    border-radius: 3px;
     font-size: 12px;
     text-align: right;
     padding: 5px 5px 0 5px;
 }
-.remove-btn{
+
+.remove-btn {
     background-color: #353c58;
     color: white;
     font-weight: 500;
 }
-.cancel-btn{
+
+.cancel-btn {
     background-color: rgb(255, 68, 0);
     color: white;
     font-weight: 500;

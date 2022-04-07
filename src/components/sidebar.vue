@@ -17,7 +17,7 @@
 
     <router-link to="/dashboard/transactions">
         <li class="sidebar-items" :class="{active:isActive == 3}" @click="transactionActive">
-            <i class="bi bi-people-fill"></i>
+            <i class="bi bi-file-text"></i>
             Transaction History
         </li>
     </router-link>
@@ -38,7 +38,6 @@
 export default {
     data() {
         return {
-        props:['trans', 'group', 'user' ],
             isActive: undefined,
             openIcon: true,
             closeIcon: false,
